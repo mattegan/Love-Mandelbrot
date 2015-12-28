@@ -17,7 +17,7 @@ Most debug and utility output is directed towards a console window, so launching
 * panning with the arrow keys doesn't work at the same speed at multiple zoom levels
 * ability to set output width or height, output currently fails if the viewing window is not tall enough (the output height is hardcoded in, and for the output width to match the aspect ratio of a window that isn't very tall makes the rendering size very large)
 
-###Adding and Changing Coloring
+####Adding and Changing Coloring
 
 The `colorData.lua` file can be edited to change existing colorings or add more. They look better if they are cyclic, but they don't have to be. There is a note inside this file on how the existing colorings were generated.
 
