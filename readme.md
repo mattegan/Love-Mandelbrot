@@ -1,6 +1,6 @@
 ##Love2d Mandelbrot Browser
 
-This is a small Love2d experiment with it's fragment (pixel) shader support. The fractals are rendered offscreen to an oversized buffer canvas, and then scaled down to the window size to achieve smoother results. Targets Love 0.10.0.
+This is a small Love2d experiment with it's fragment (pixel) shader support. The fractals are rendered offscreen to an oversized buffer canvas, and then scaled down to the window size to achieve smoother results. Click to zoom in and out, pan and change some configuration with the keyboard. Targets Love 0.10.0.
 
 ####Controls
 * `click` - zoom in on the area under the mouse pointer
@@ -19,10 +19,18 @@ Most debug and utility output is directed towards a console window, so launching
 
 ###Adding and Changing Coloring
 
-The `colors.lua` file can be edited to change existing colorings or add more. They look better if they are cyclic, but they don't have to be. There is a note inside this file on how the existing colorings were generated.
+The `colorData.lua` file can be edited to change existing colorings or add more. They look better if they are cyclic, but they don't have to be. There is a note inside this file on how the existing colorings were generated.
 
 
 ####Nofix
 * low precision at high zoom levels, a limitation of the OpenGL floating point precision, and this whole thing was created with that expectation
 
 ####Screenshots
+
+![image](https://raw.githubusercontent.com/mattegan/Love-Mandelbrot/master/screenshots/1.png)
+
+![image](https://raw.githubusercontent.com/mattegan/Love-Mandelbrot/master/screenshots/2.png)
+
+![image](https://raw.githubusercontent.com/mattegan/Love-Mandelbrot/master/screenshots/3.png)
+
+![image](https://raw.githubusercontent.com/mattegan/Love-Mandelbrot/master/screenshots/4.png)
