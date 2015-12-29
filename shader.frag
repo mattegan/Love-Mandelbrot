@@ -68,7 +68,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
   //    http://yozh.org/2010/12/01/mset005/
 
   //  store log(2) since it's used a few times
-  float log_two = log(2);
+  float log_two = log(2.0);
   if (iteration < max_iterations) {
     float log_zn = log(x_pow_two + y_pow_two) / 2.0;
     float nu = log(log_zn / log_two) / log_two;
