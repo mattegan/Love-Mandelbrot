@@ -1,12 +1,12 @@
 //  these external variables are described in the drawFractal(),
 //  and sendColorPack() functions in the lua code
-extern number window_width;
-extern number window_height;
-extern number x_center;
-extern number y_center;
-extern number domain;
-extern number color_count;
-extern vec3[300] colors;
+extern float window_width;
+extern float window_height;
+extern float x_center;
+extern float y_center;
+extern float domain;
+extern float color_count;
+extern vec3 colors[300];
 extern vec3 background_color;
 
 vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
@@ -25,8 +25,8 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
   //  normalize the pixel coordinate (supplied in integer pixels) such that the
   //  center of the screen is at x_center and y_center, and the edges of the
   //  screen are domain / 2 and range / 2 away from the center, respectively
-  float x0 = x_center + ((screen_coords[0] / window_width) * domain) - (domain / 2);
-  float y0 = y_center + ((screen_coords[1] / window_height) * range) - (range / 2);
+  float x0 = x_center + ((float(screen_coords.x) / window_width) * domain) - (domain / 2.0);
+  float y0 = y_center + ((float(screen_coords.y) / window_height) * range) - (range / 2.0);
 
   //  check to see if the point is within the main cardioid (a large portion of
   //  the fractal which never converges and will surely hit the iteration limit)
@@ -34,8 +34,8 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
   //  the background color
   //  this is described at:
   //    https://en.wikipedia.org/wiki/Mandelbrot_set#Cardioid_.2F_bulb_checking
-  float p = sqrt(pow(x0 - 0.25, 2) + pow(y0, 2));
-  if (x0 < (p - (2 * pow(p, 2)) + 0.25)) {
+  float p = sqrt(pow(x0 - 0.25, 2.0) + pow(y0, 2.0));
+  if (x0 < (p - (2.0 * pow(p, 2.0)) + 0.25)) {
     return vec4(background_color, 1.0);
   }
 
@@ -44,21 +44,21 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
   float y = 0.0;
   int iteration = 0;
   int max_iterations = 1000;
-  int bailout_radius = 256;
+  float bailout_radius = 256.0;
 
   //  precalculate the powers of two to prevent them from being calculated twice
   //  every iteration, probably not incredibly significant
-  float x_pow_two = pow(x, 2);
-  float y_pow_two = pow(y, 2);
+  float x_pow_two = pow(x, 2.0);
+  float y_pow_two = pow(y, 2.0);
 
   //  iterate until the bailout_radius or iteration limit is reached
   while((x_pow_two + y_pow_two < bailout_radius) && iteration < max_iterations) {
     float xtemp = x_pow_two - y_pow_two + x0;
-    y = 2 * x * y + y0;
+    y = 2.0 * x * y + y0;
     x = xtemp;
     iteration += 1;
-    x_pow_two = pow(x, 2);
-    y_pow_two = pow(y, 2);
+    x_pow_two = pow(x, 2.0);
+    y_pow_two = pow(y, 2.0);
   }
 
   //  this is an implementation of the continuous coloring escape-time algorithm
@@ -72,10 +72,10 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) 
   if (iteration < max_iterations) {
     float log_zn = log(x_pow_two + y_pow_two) / 2.0;
     float nu = log(log_zn / log_two) / log_two;
-    float normalized_iteration = iteration + 1 - nu;
+    float normalized_iteration = float(iteration) + 1.0 - nu;
     float interp = fract(normalized_iteration);
-    vec3 first_color = colors[int(mod(iteration, int(color_count)))];
-    vec3 second_color = colors[int(mod(iteration + 1, int(color_count)))];
+    vec3 first_color = colors[int(mod(float(iteration), color_count))];
+    vec3 second_color = colors[int(mod(float(iteration) + 1.0, color_count))];
     return vec4(mix(first_color, second_color, interp), 1.0);
   } else {
     return vec4(background_color, 1.0);
